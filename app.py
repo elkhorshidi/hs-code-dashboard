@@ -64,7 +64,7 @@ def available_display_columns(df: pd.DataFrame) -> list[str]:
 
 
 def display_matched_rows(title: str, matches: pd.DataFrame) -> None:
-    st.subheader(title)
+    st.markdown(f'<div class="section-title">{title}</div>', unsafe_allow_html=True)
     columns = available_display_columns(matches)
     st.dataframe(
         matches[columns].fillna("").astype(str),
@@ -79,16 +79,30 @@ def show_metrics(band_1_df: pd.DataFrame, band_2_df: pd.DataFrame) -> None:
     unique_codes = band_1_codes | band_2_codes
 
     col_1, col_2, col_3 = st.columns(3)
-    col_1.metric("تعداد کدهای بند ۱", f"{len(band_1_codes):,}")
-    col_2.metric("تعداد کدهای بند ۲", f"{len(band_2_codes):,}")
-    col_3.metric("مجموع کدهای یکتا", f"{len(unique_codes):,}")
+    with col_1:
+        st.metric("تعداد کدهای بند ۱", f"{len(band_1_codes):,}")
+    with col_2:
+        st.metric("تعداد کدهای بند ۲", f"{len(band_2_codes):,}")
+    with col_3:
+        st.metric("مجموع کدهای یکتا", f"{len(unique_codes):,}")
+
+
+def show_result_card(message: str, style: str) -> None:
+    st.markdown(
+        f"""
+        <div class="result-card result-{style}">
+            <div class="result-text">{message}</div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
 
 
 def check_hs_code(entered_code: str, band_1_df: pd.DataFrame, band_2_df: pd.DataFrame) -> None:
     normalized_code = normalize_hs_code(entered_code)
 
     if not normalized_code:
-        st.warning("لطفاً یک کد تعرفه معتبر وارد کنید.")
+        show_result_card("لطفاً یک کد تعرفه معتبر وارد کنید.", "warning")
         return
 
     band_1_matches = band_1_df[band_1_df["کد نرمال‌شده"] == normalized_code]
@@ -98,21 +112,27 @@ def check_hs_code(entered_code: str, band_1_df: pd.DataFrame, band_2_df: pd.Data
     exists_in_band_2 = not band_2_matches.empty
 
     if exists_in_band_1 and exists_in_band_2:
-        st.warning("این کد در هر دو بند وجود دارد و دیتابیس نیاز به بررسی دارد.")
+        show_result_card("این کد در هر دو بند وجود دارد و دیتابیس نیاز به بررسی دارد.", "warning")
         display_matched_rows("جزئیات بند ۱", band_1_matches)
         display_matched_rows("جزئیات بند ۲", band_2_matches)
     elif exists_in_band_1:
-        st.success("این کد مشمول بند ۱ است و باید از مسیر تالار دوم برای رفع تعهد بررسی شود.")
+        show_result_card(
+            "این کد مشمول بند ۱ است و باید از مسیر تالار دوم برای رفع تعهد بررسی شود.",
+            "info",
+        )
         display_matched_rows("جزئیات کد", band_1_matches)
     elif exists_in_band_2:
-        st.success("این کد مشمول بند ۲ است و امکان بررسی مسیر تحویل کش به بانک ملی را دارد.")
+        show_result_card(
+            "این کد مشمول بند ۲ است و امکان بررسی مسیر تحویل کش به بانک ملی را دارد.",
+            "success",
+        )
         display_matched_rows("جزئیات کد", band_2_matches)
     else:
-        st.info("کد واردشده در دیتابیس فعلی یافت نشد.")
+        show_result_card("کد واردشده در دیتابیس فعلی یافت نشد.", "error")
 
 
 def show_database_preview(band_1_df: pd.DataFrame, band_2_df: pd.DataFrame) -> None:
-    with st.expander("نمایش و جست‌وجو در دیتابیس"):
+    with st.expander("نمایش و جست‌وجو در دیتابیس", expanded=False):
         search_text = st.text_input("جست‌وجو در دیتابیس", key="database_preview_search")
         database = pd.concat([band_1_df, band_2_df], ignore_index=True)
         preview_columns = ["بند"] + available_display_columns(database)
@@ -135,6 +155,7 @@ def show_database_preview(band_1_df: pd.DataFrame, band_2_df: pd.DataFrame) -> N
             else:
                 database = database[text_mask]
 
+        st.caption(f"{len(database):,} ردیف قابل نمایش")
         st.dataframe(
             database[preview_columns].fillna("").astype(str),
             width="stretch",
@@ -146,19 +167,96 @@ def apply_rtl_styles() -> None:
     st.markdown(
         """
         <style>
+        .block-container {
+            max-width: 1180px;
+            padding-top: 2rem;
+            padding-bottom: 2rem;
+        }
         html, body, [class*="css"], .stApp {
             direction: rtl;
             text-align: right;
             font-family: Tahoma, Arial, sans-serif;
         }
+        h1 {
+            font-size: 2rem !important;
+            font-weight: 750 !important;
+            margin-bottom: 0.25rem !important;
+        }
+        .subtitle {
+            color: #596579;
+            font-size: 1rem;
+            margin: -0.15rem 0 1.25rem;
+        }
         .stTextInput input {
             direction: rtl;
             text-align: right;
+            border-radius: 8px;
         }
-        div[data-testid="stMetric"],
+        .stButton > button {
+            width: 100%;
+            border-radius: 8px;
+            margin-top: 1.75rem;
+            min-height: 2.65rem;
+            font-weight: 700;
+        }
+        div[data-testid="stMetric"] {
+            background: #ffffff;
+            border: 1px solid #e6eaf0;
+            border-radius: 8px;
+            padding: 0.8rem 1rem;
+            box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+        }
+        div[data-testid="stMetric"] label,
+        div[data-testid="stMetric"] div {
+            direction: rtl;
+            text-align: right;
+        }
+        div[data-testid="stMetricValue"] {
+            font-size: 1.35rem;
+            font-weight: 750;
+        }
         div[data-testid="stDataFrame"] {
             direction: rtl;
             text-align: right;
+        }
+        .result-card {
+            border-radius: 8px;
+            border: 1px solid;
+            padding: 1rem 1.1rem;
+            margin: 1rem 0 0.85rem;
+            line-height: 1.8;
+            font-weight: 700;
+        }
+        .result-success {
+            background: #ecfdf3;
+            border-color: #b7ebc6;
+            color: #166534;
+        }
+        .result-info {
+            background: #eff6ff;
+            border-color: #bfdbfe;
+            color: #1d4ed8;
+        }
+        .result-warning {
+            background: #fffbeb;
+            border-color: #fde68a;
+            color: #92400e;
+        }
+        .result-error {
+            background: #fef2f2;
+            border-color: #fecaca;
+            color: #b91c1c;
+        }
+        .section-title {
+            font-size: 1rem;
+            font-weight: 750;
+            margin: 0.75rem 0 0.45rem;
+            color: #1f2937;
+        }
+        div[data-testid="stExpander"] {
+            border-radius: 8px;
+            border-color: #e6eaf0;
+            margin-top: 1rem;
         }
         </style>
         """,
@@ -171,6 +269,10 @@ def main() -> None:
     apply_rtl_styles()
 
     st.title("داشبورد بررسی کد تعرفه")
+    st.markdown(
+        '<div class="subtitle">بررسی سریع مسیر رفع تعهد صادراتی بر اساس کد تعرفه</div>',
+        unsafe_allow_html=True,
+    )
 
     try:
         band_1_df, band_2_df = load_data()
@@ -180,8 +282,13 @@ def main() -> None:
 
     show_metrics(band_1_df, band_2_df)
 
-    entered_code = st.text_input("کد تعرفه را وارد کنید")
-    if st.button("بررسی کد", type="primary"):
+    input_col, button_col = st.columns([4, 1])
+    with input_col:
+        entered_code = st.text_input("کد تعرفه را وارد کنید")
+    with button_col:
+        check_clicked = st.button("بررسی کد", type="primary")
+
+    if check_clicked:
         check_hs_code(entered_code, band_1_df, band_2_df)
 
     show_database_preview(band_1_df, band_2_df)
