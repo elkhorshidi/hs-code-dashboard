@@ -172,10 +172,34 @@ def apply_rtl_styles() -> None:
             padding-top: 2rem;
             padding-bottom: 2rem;
         }
-        html, body, [class*="css"], .stApp {
+        html,
+        body,
+        main,
+        [class*="css"],
+        .stApp,
+        .stApp section,
+        .stApp div,
+        .stApp label,
+        .stApp p,
+        .stApp span {
             direction: rtl;
             text-align: right;
             font-family: Tahoma, Arial, sans-serif;
+        }
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6,
+        label,
+        [data-testid="stWidgetLabel"],
+        [data-testid="stMarkdownContainer"],
+        [data-testid="stCaptionContainer"],
+        [data-testid="stExpander"] summary,
+        [data-testid="stExpander"] summary p {
+            direction: rtl !important;
+            text-align: right !important;
         }
         h1 {
             font-size: 2rem !important;
@@ -186,11 +210,21 @@ def apply_rtl_styles() -> None:
             color: #596579;
             font-size: 1rem;
             margin: -0.15rem 0 1.25rem;
-        }
-        .stTextInput input {
-            direction: rtl;
             text-align: right;
+        }
+        .stTextInput,
+        .stTextInput label,
+        .stTextInput div {
+            direction: rtl !important;
+            text-align: right !important;
+        }
+        .stTextInput input,
+        input[type="text"] {
+            direction: rtl !important;
+            text-align: right !important;
             border-radius: 8px;
+            unicode-bidi: plaintext;
+            font-variant-numeric: tabular-nums;
         }
         .stButton > button {
             width: 100%;
@@ -198,6 +232,11 @@ def apply_rtl_styles() -> None:
             margin-top: 1.75rem;
             min-height: 2.65rem;
             font-weight: 700;
+            direction: rtl !important;
+            text-align: center !important;
+        }
+        .stButton > button p {
+            text-align: center !important;
         }
         div[data-testid="stMetric"] {
             background: #ffffff;
@@ -205,19 +244,36 @@ def apply_rtl_styles() -> None:
             border-radius: 8px;
             padding: 0.8rem 1rem;
             box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+            direction: rtl !important;
+            text-align: right !important;
         }
         div[data-testid="stMetric"] label,
         div[data-testid="stMetric"] div {
-            direction: rtl;
-            text-align: right;
+            direction: rtl !important;
+            text-align: right !important;
         }
         div[data-testid="stMetricValue"] {
             font-size: 1.35rem;
             font-weight: 750;
+            direction: ltr !important;
+            text-align: right !important;
+            font-variant-numeric: tabular-nums;
         }
-        div[data-testid="stDataFrame"] {
-            direction: rtl;
-            text-align: right;
+        div[data-testid="stMetricLabel"] {
+            justify-content: flex-end;
+        }
+        div[data-testid="stDataFrame"],
+        div[data-testid="stDataFrame"] div,
+        div[data-testid="stDataFrame"] span,
+        div[data-testid="stDataFrame"] [role="grid"],
+        div[data-testid="stDataFrame"] [role="columnheader"],
+        div[data-testid="stDataFrame"] [role="gridcell"] {
+            direction: rtl !important;
+            text-align: right !important;
+            justify-content: flex-end !important;
+        }
+        div[data-testid="stDataFrame"] canvas {
+            direction: rtl !important;
         }
         .result-card {
             border-radius: 8px;
@@ -226,6 +282,12 @@ def apply_rtl_styles() -> None:
             margin: 1rem 0 0.85rem;
             line-height: 1.8;
             font-weight: 700;
+            direction: rtl;
+            text-align: right;
+        }
+        .result-text {
+            direction: rtl;
+            text-align: right;
         }
         .result-success {
             background: #ecfdf3;
@@ -252,11 +314,24 @@ def apply_rtl_styles() -> None:
             font-weight: 750;
             margin: 0.75rem 0 0.45rem;
             color: #1f2937;
+            direction: rtl;
+            text-align: right;
         }
         div[data-testid="stExpander"] {
             border-radius: 8px;
             border-color: #e6eaf0;
             margin-top: 1rem;
+            direction: rtl !important;
+            text-align: right !important;
+        }
+        div[data-testid="stExpander"] details,
+        div[data-testid="stExpander"] summary,
+        div[data-testid="stExpander"] div {
+            direction: rtl !important;
+            text-align: right !important;
+        }
+        div[data-testid="stHorizontalBlock"] {
+            direction: rtl;
         }
         </style>
         """,
