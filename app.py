@@ -112,23 +112,26 @@ def check_hs_code(entered_code: str, band_1_df: pd.DataFrame, band_2_df: pd.Data
     exists_in_band_2 = not band_2_matches.empty
 
     if exists_in_band_1 and exists_in_band_2:
-        show_result_card("این کد در هر دو بند وجود دارد و دیتابیس نیاز به بررسی دارد.", "warning")
+        show_result_card(
+            f"کد {normalized_code} در هر دو بند وجود دارد و دیتابیس نیاز به بررسی دارد.",
+            "warning",
+        )
         display_matched_rows("جزئیات بند ۱", band_1_matches)
         display_matched_rows("جزئیات بند ۲", band_2_matches)
     elif exists_in_band_1:
         show_result_card(
-            "این کد مشمول بند ۱ است و باید از مسیر تالار دوم برای رفع تعهد بررسی شود.",
+            f"کد {normalized_code} مشمول بند ۱ است و باید از مسیر تالار دوم برای رفع تعهد بررسی شود.",
             "info",
         )
         display_matched_rows("جزئیات کد", band_1_matches)
     elif exists_in_band_2:
         show_result_card(
-            "این کد مشمول بند ۲ است و امکان بررسی مسیر تحویل کش به بانک ملی را دارد.",
+            f"کد {normalized_code} مشمول بند ۲ است و امکان بررسی مسیر تحویل کش به بانک ملی را دارد.",
             "success",
         )
         display_matched_rows("جزئیات کد", band_2_matches)
     else:
-        show_result_card("کد واردشده در دیتابیس فعلی یافت نشد.", "error")
+        show_result_card(f"کد {normalized_code} در دیتابیس فعلی یافت نشد.", "error")
 
 
 def show_database_preview(band_1_df: pd.DataFrame, band_2_df: pd.DataFrame) -> None:
@@ -185,11 +188,27 @@ def apply_rtl_styles() -> None:
         h1,
         h2,
         h3,
+        h4,
+        h5,
+        h6,
+        p,
+        label,
+        input,
+        textarea,
+        button,
+        .stMarkdown,
+        .stTextInput,
+        .stButton,
         .stTextInput label,
         [data-testid="stWidgetLabel"],
         .stButton > button,
         div[data-testid="stMetric"],
+        div[data-testid="stMetricLabel"],
+        div[data-testid="stMetricValue"],
+        div[data-testid="stExpander"],
+        div[data-testid="stDataFrame"],
         .result-card,
+        .result-text,
         .section-title {
             font-family: "Vazirmatn", Tahoma, Arial, sans-serif !important;
         }
@@ -231,6 +250,10 @@ def apply_rtl_styles() -> None:
         .stButton > button p {
             text-align: center !important;
         }
+        div[data-testid="stMarkdownContainer"] p,
+        div[data-testid="stCaptionContainer"] p {
+            font-family: "Vazirmatn", Tahoma, Arial, sans-serif !important;
+        }
         div[data-testid="stMetric"] {
             background: #ffffff;
             border: 1px solid #e6eaf0;
@@ -243,16 +266,22 @@ def apply_rtl_styles() -> None:
         div[data-testid="stMetric"] label {
             direction: rtl !important;
             text-align: right !important;
+            font-family: "Vazirmatn", Tahoma, Arial, sans-serif !important;
         }
         div[data-testid="stMetricValue"] {
             font-size: 1.35rem;
             font-weight: 750;
             direction: ltr !important;
             text-align: right !important;
+            font-family: "Vazirmatn", Tahoma, Arial, sans-serif !important;
             font-variant-numeric: tabular-nums;
         }
         div[data-testid="stMetricLabel"] {
             justify-content: flex-end;
+            font-family: "Vazirmatn", Tahoma, Arial, sans-serif !important;
+        }
+        div[data-testid="stDataFrame"] {
+            font-family: "Vazirmatn", Tahoma, Arial, sans-serif !important;
         }
         div[data-testid="stDataFrame"] [role="columnheader"],
         div[data-testid="stDataFrame"] [role="gridcell"] {
@@ -269,6 +298,9 @@ def apply_rtl_styles() -> None:
             font-weight: 700;
             direction: rtl;
             text-align: right;
+        }
+        .result-text {
+            font-family: "Vazirmatn", Tahoma, Arial, sans-serif !important;
         }
         .result-success {
             background: #ecfdf3;
@@ -302,10 +334,12 @@ def apply_rtl_styles() -> None:
             border-radius: 8px;
             border-color: #e6eaf0;
             margin-top: 1rem;
+            font-family: "Vazirmatn", Tahoma, Arial, sans-serif !important;
         }
         div[data-testid="stExpander"] summary p {
             direction: rtl;
             text-align: right !important;
+            font-family: "Vazirmatn", Tahoma, Arial, sans-serif !important;
         }
         div[data-testid="stHorizontalBlock"] {
             direction: rtl;
