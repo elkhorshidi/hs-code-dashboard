@@ -167,18 +167,31 @@ def apply_rtl_styles() -> None:
     st.markdown(
         """
         <style>
+        @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&display=swap');
+
         .block-container {
             max-width: 1180px;
             padding-top: 2rem;
             padding-bottom: 2rem;
             direction: rtl;
             text-align: right;
-            font-family: Tahoma, Arial, sans-serif;
+            font-family: "Vazirmatn", Tahoma, Arial, sans-serif;
         }
         .stApp {
             direction: rtl;
             text-align: right;
-            font-family: Tahoma, Arial, sans-serif;
+            font-family: "Vazirmatn", Tahoma, Arial, sans-serif;
+        }
+        h1,
+        h2,
+        h3,
+        .stTextInput label,
+        [data-testid="stWidgetLabel"],
+        .stButton > button,
+        div[data-testid="stMetric"],
+        .result-card,
+        .section-title {
+            font-family: "Vazirmatn", Tahoma, Arial, sans-serif !important;
         }
         h1 {
             font-size: 2rem !important;
@@ -202,6 +215,7 @@ def apply_rtl_styles() -> None:
             direction: rtl !important;
             text-align: right !important;
             border-radius: 8px;
+            font-family: "Vazirmatn", Tahoma, Arial, sans-serif !important;
             unicode-bidi: plaintext;
             font-variant-numeric: tabular-nums;
         }
@@ -242,6 +256,7 @@ def apply_rtl_styles() -> None:
         }
         div[data-testid="stDataFrame"] [role="columnheader"],
         div[data-testid="stDataFrame"] [role="gridcell"] {
+            font-family: "Vazirmatn", Tahoma, Arial, sans-serif !important;
             text-align: right !important;
             justify-content: flex-end !important;
         }
