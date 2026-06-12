@@ -144,13 +144,22 @@ def check_hs_code(entered_code: str, band_1_df: pd.DataFrame, band_2_df: pd.Data
         display_matched_rows("جزئیات بند ۲", band_2_matches)
     elif exists_in_band_1:
         show_result_card(
-            f"کد {normalized_code} مشمول بند ۱ است و باید از مسیر تالار دوم برای رفع تعهد بررسی شود.",
+            f"""
+            کد {normalized_code} مشمول بند ۱ است و امکان بررسی مسیرهای زیر جهت رفع تعهد صادراتی وجود دارد:
+            <br>۱- عرضه در تالار دوم
+            <br>۲- واردات در مقابل صادرات
+            """,
             "info",
         )
         display_matched_rows("جزئیات کد", band_1_matches)
     elif exists_in_band_2:
         show_result_card(
-            f"کد {normalized_code} مشمول بند ۲ است و امکان بررسی مسیر تحویل کش به بانک ملی را دارد.",
+            f"""
+            کد {normalized_code} مشمول بند ۲ است و امکان بررسی مسیرهای زیر جهت رفع تعهد صادراتی وجود دارد:
+            <br>۱- تحویل کش به بانک ملی <strong>(گزینه پیشنهادی)</strong>
+            <br>۲- واردات در مقابل صادرات
+            <br>۳- عرضه در تالار دوم
+            """,
             "success",
         )
         display_matched_rows("جزئیات کد", band_2_matches)
