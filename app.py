@@ -171,40 +171,20 @@ def apply_rtl_styles() -> None:
             max-width: 1180px;
             padding-top: 2rem;
             padding-bottom: 2rem;
-        }
-        html,
-        body,
-        main,
-        [class*="css"],
-        .stApp,
-        .stApp section,
-        .stApp div,
-        .stApp label,
-        .stApp p,
-        .stApp span {
             direction: rtl;
             text-align: right;
             font-family: Tahoma, Arial, sans-serif;
         }
-        h1,
-        h2,
-        h3,
-        h4,
-        h5,
-        h6,
-        label,
-        [data-testid="stWidgetLabel"],
-        [data-testid="stMarkdownContainer"],
-        [data-testid="stCaptionContainer"],
-        [data-testid="stExpander"] summary,
-        [data-testid="stExpander"] summary p {
-            direction: rtl !important;
-            text-align: right !important;
+        .stApp {
+            direction: rtl;
+            text-align: right;
+            font-family: Tahoma, Arial, sans-serif;
         }
         h1 {
             font-size: 2rem !important;
             font-weight: 750 !important;
             margin-bottom: 0.25rem !important;
+            text-align: right;
         }
         .subtitle {
             color: #596579;
@@ -212,9 +192,8 @@ def apply_rtl_styles() -> None:
             margin: -0.15rem 0 1.25rem;
             text-align: right;
         }
-        .stTextInput,
         .stTextInput label,
-        .stTextInput div {
+        [data-testid="stWidgetLabel"] {
             direction: rtl !important;
             text-align: right !important;
         }
@@ -247,8 +226,7 @@ def apply_rtl_styles() -> None:
             direction: rtl !important;
             text-align: right !important;
         }
-        div[data-testid="stMetric"] label,
-        div[data-testid="stMetric"] div {
+        div[data-testid="stMetric"] label {
             direction: rtl !important;
             text-align: right !important;
         }
@@ -262,18 +240,10 @@ def apply_rtl_styles() -> None:
         div[data-testid="stMetricLabel"] {
             justify-content: flex-end;
         }
-        div[data-testid="stDataFrame"],
-        div[data-testid="stDataFrame"] div,
-        div[data-testid="stDataFrame"] span,
-        div[data-testid="stDataFrame"] [role="grid"],
         div[data-testid="stDataFrame"] [role="columnheader"],
         div[data-testid="stDataFrame"] [role="gridcell"] {
-            direction: rtl !important;
             text-align: right !important;
             justify-content: flex-end !important;
-        }
-        div[data-testid="stDataFrame"] canvas {
-            direction: rtl !important;
         }
         .result-card {
             border-radius: 8px;
@@ -282,10 +252,6 @@ def apply_rtl_styles() -> None:
             margin: 1rem 0 0.85rem;
             line-height: 1.8;
             font-weight: 700;
-            direction: rtl;
-            text-align: right;
-        }
-        .result-text {
             direction: rtl;
             text-align: right;
         }
@@ -321,13 +287,9 @@ def apply_rtl_styles() -> None:
             border-radius: 8px;
             border-color: #e6eaf0;
             margin-top: 1rem;
-            direction: rtl !important;
-            text-align: right !important;
         }
-        div[data-testid="stExpander"] details,
-        div[data-testid="stExpander"] summary,
-        div[data-testid="stExpander"] div {
-            direction: rtl !important;
+        div[data-testid="stExpander"] summary p {
+            direction: rtl;
             text-align: right !important;
         }
         div[data-testid="stHorizontalBlock"] {
