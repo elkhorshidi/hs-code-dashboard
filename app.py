@@ -218,11 +218,15 @@ def apply_rtl_styles() -> None:
             margin-bottom: 0.25rem !important;
             text-align: right;
         }
-        .subtitle {
-            color: #596579;
+        .app-subtitle {
+            font-family: "Vazirmatn", Tahoma, Arial, sans-serif !important;
             font-size: 1rem;
-            margin: -0.15rem 0 1.25rem;
+            color: #64748b;
+            font-weight: 500;
             text-align: right;
+            direction: rtl;
+            margin-top: -0.5rem;
+            margin-bottom: 1.5rem;
         }
         .stTextInput label,
         [data-testid="stWidgetLabel"] {
@@ -356,7 +360,7 @@ def main() -> None:
 
     st.title("داشبورد بررسی کد تعرفه")
     st.markdown(
-        '<div class="subtitle">بررسی سریع مسیر رفع تعهد صادراتی بر اساس کد تعرفه</div>',
+        '<div class="app-subtitle">بررسی سریع مسیر رفع تعهد صادراتی بر اساس کد تعرفه</div>',
         unsafe_allow_html=True,
     )
 
