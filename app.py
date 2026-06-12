@@ -1,3 +1,4 @@
+import html
 import re
 
 import pandas as pd
@@ -66,10 +67,33 @@ def available_display_columns(df: pd.DataFrame) -> list[str]:
 def display_matched_rows(title: str, matches: pd.DataFrame) -> None:
     st.markdown(f'<div class="section-title">{title}</div>', unsafe_allow_html=True)
     columns = available_display_columns(matches)
-    st.dataframe(
-        matches[columns].fillna("").astype(str),
-        width="stretch",
-        hide_index=True,
+    rows_html = []
+
+    for _, row in matches[columns].fillna("").astype(str).iterrows():
+        cells = []
+        for column in columns:
+            value = html.escape(row[column])
+            cell_class = ' class="code-cell"' if column == "HS Code" else ""
+            cells.append(f"<td{cell_class}>{value}</td>")
+        rows_html.append(f"<tr>{''.join(cells)}</tr>")
+
+    headers_html = "".join(f"<th>{html.escape(column)}</th>" for column in columns)
+    body_html = "".join(rows_html)
+
+    st.markdown(
+        f"""
+        <div class="details-table-wrap">
+            <table class="details-table">
+                <thead>
+                    <tr>{headers_html}</tr>
+                </thead>
+                <tbody>
+                    {body_html}
+                </tbody>
+            </table>
+        </div>
+        """,
+        unsafe_allow_html=True,
     )
 
 
@@ -332,6 +356,51 @@ def apply_rtl_styles() -> None:
             margin: 0.75rem 0 0.45rem;
             color: #1f2937;
             direction: rtl;
+            text-align: right;
+        }
+        .details-table-wrap {
+            direction: rtl;
+            margin: 0.4rem 0 1rem;
+            overflow-x: auto;
+        }
+        .details-table {
+            width: 100%;
+            border-collapse: collapse;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            direction: rtl;
+            font-family: "Vazirmatn", Tahoma, Arial, sans-serif !important;
+            font-size: 0.92rem;
+            line-height: 1.8;
+            overflow: hidden;
+        }
+        .details-table th,
+        .details-table td {
+            border-bottom: 1px solid #e5e7eb;
+            border-left: 1px solid #eef2f7;
+            padding: 0.7rem 0.85rem;
+            text-align: right;
+            vertical-align: top;
+            font-family: "Vazirmatn", Tahoma, Arial, sans-serif !important;
+        }
+        .details-table th {
+            background: #f8fafc;
+            color: #334155;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+        .details-table td {
+            color: #1f2937;
+            background: #ffffff;
+        }
+        .details-table tr:last-child td {
+            border-bottom: 0;
+        }
+        .details-table .code-cell {
+            direction: ltr;
+            unicode-bidi: plaintext;
+            font-variant-numeric: tabular-nums;
+            white-space: nowrap;
             text-align: right;
         }
         div[data-testid="stExpander"] {
